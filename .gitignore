@@ -1,0 +1,7 @@
+# Ignore pycharm .idea folder
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
