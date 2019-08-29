@@ -13,3 +13,6 @@ RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && /opt/miniconda/bin/conda ins
 # ADD hello.py /home/hello.py
 
 # sudo docker run -it broadinstitute/gatk:latest /bin/bash
+
+# For testing keep this. In the future we can put in a wrapper
+ENTRYPOINT /bin/bash
