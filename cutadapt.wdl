@@ -31,7 +31,7 @@ workflow QC {
         input:
             seqFile = read1,
             outdirPath = outputDir + "/",
-            dockerImage = dockerImages["fastqc"]
+            #dockerImage = dockerImages["fastqc"]
     }
 
     if (defined(read2)) {
@@ -39,7 +39,7 @@ workflow QC {
             input:
                 seqFile = select_first([read2]),
                 outdirPath = outputDir + "/",
-                dockerImage = dockerImages["fastqc"]
+                #dockerImage = dockerImages["fastqc"]
         }
         String read2outputPath = outputDir + "/cutadapt_" + basename(select_first([read2]))
     }
@@ -56,14 +56,14 @@ workflow QC {
                 adapterRead2 = adapterReverseDefault,
                 anywhereRead2 = if defined(read2) then contaminations else read2,
                 reportPath = outputDir + "/" + readgroupName +  "_cutadapt_report.txt",
-                dockerImage = dockerImages["cutadapt"]
+                #dockerImage = dockerImages["cutadapt"]
         }
 
         call fastqc.Fastqc as FastqcRead1After {
             input:
                 seqFile = Cutadapt.cutRead1,
                 outdirPath = outputDir + "/",
-                dockerImage = dockerImages["fastqc"]
+                #dockerImage = dockerImages["fastqc"]
         }
 
         if (defined(read2)) {
@@ -71,7 +71,7 @@ workflow QC {
                 input:
                     seqFile = select_first([Cutadapt.cutRead2]),
                     outdirPath = outputDir + "/",
-                    dockerImage = dockerImages["fastqc"]
+                    #dockerImage = dockerImages["fastqc"]
             }
         }
     }
