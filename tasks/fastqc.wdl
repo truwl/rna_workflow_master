@@ -61,7 +61,7 @@ task Fastqc {
 
     runtime {
         cpu: threads
-        docker: dockerImage
+        #docker: dockerImage
     }
 }
 
@@ -87,6 +87,6 @@ task GetConfiguration {
 
     runtime {
         memory: 2 # Needs more than 1 to pull the docker image
-        docker: "quay.io/biocontainers/fastqc:" + dockerTag
+        #docker: "quay.io/biocontainers/fastqc:" + dockerTag
     }
 }

@@ -18,7 +18,7 @@ RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf \
 RUN mkdir -p /opt/cromwell \
   && echo "nameserver 8.8.8.8" > /etc/resolv.conf \
   && wget https://github.com/broadinstitute/cromwell/releases/download/45.1/cromwell-45.1.jar -O /opt/cromwell/cromwell.jar \
-  && wget https://github.com/broadinstitute/wdltool/releases/download/0.14/wdltool-0.14.jar -O /opt/cromwell/wdltool.jar
+  && wget https://github.com/broadinstitute/cromwell/releases/download/45.1/womtool-45.1.jar -O /opt/cromwell/womtool.jar
 
 # WORKDIR /opt
 # ADD hello.py /home/hello.py

@@ -149,6 +149,6 @@ task Cutadapt {
     runtime {
         cpu: cores
         memory: memory
-        docker: dockerImage
+        #docker: dockerImage
     }
 }
