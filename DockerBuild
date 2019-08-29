@@ -4,17 +4,10 @@ MAINTAINER Brad Sickler "brad.sickler@mode3consulting.com"
 LABEL version="1.0"
 
 # This is necessary because evidently our aws doesn't understand DNS outside of AWS... good times
-RUN echo "nameserver 8.8.8.8" | tee /etc/resolv.conf > /dev/null
-RUN apt-get update
-
-# This will install fastqc in /usr/bin/fastqc
-RUN apt-get install -y fastqc
-
-# For my sanity for now
-RUN apg-get install -y vim
+RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && apt-get update && apt-get install -y fastqc vim
 
 # Add a few things to the /opt/miniconda install
-RUN /opt/miniconda/bin/conda install --yes -c conda-forge awscli
+RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && /opt/miniconda/bin/conda install --yes -c conda-forge awscli
 
 # WORKDIR /opt
 # ADD hello.py /home/hello.py
