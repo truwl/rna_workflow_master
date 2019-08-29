@@ -3,11 +3,21 @@ FROM broadinstitute/gatk:latest
 MAINTAINER Brad Sickler "brad.sickler@mode3consulting.com"
 LABEL version="1.0"
 
-# This is necessary because evidently our aws doesn't understand DNS outside of AWS... good times
-RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && apt-get update && apt-get install -y fastqc vim
+# The echo "nameserver" is necessary because evidently our aws doesn't understand DNS outside of AWS inside of a docker for some reason...
+# Install a few packages
+RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf \
+  && apt-get update \
+  && apt-get install -y fastqc vim
 
 # Add a few things to the /opt/miniconda install
-RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && /opt/miniconda/bin/conda install --yes -c conda-forge awscli
+RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf \
+  && /opt/miniconda/bin/conda install --yes -c conda-forge awscli
+
+# Grab cromwell
+RUN mkdir -p /opt/cromwell \
+  && echo "nameserver 8.8.8.8" > /etc/resolv.conf \
+  && wget https://github.com/broadinstitute/cromwell/releases/download/45.1/cromwell-45.1.jar -O /opt/cromwell/cromwell.jar \
+  && wget https://github.com/broadinstitute/wdltool/releases/download/0.14/wdltool-0.14.jar -O /opt/cromwell/wdltool.jar
 
 # WORKDIR /opt
 # ADD hello.py /home/hello.py
