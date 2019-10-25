@@ -14,10 +14,10 @@ workflow QC {
         Array[String]+? contaminations
         # A readgroupName so cutadapt creates a unique report name. This is useful if all the QC files are dumped in one folder.
         String readgroupName = sub(basename(read1),"(\.fq)?(\.fastq)?(\.gz)?", "")
-        Map[String, String] dockerImages = {
-        "fastqc": "quay.io/biocontainers/fastqc:0.11.7--4",
-        "cutadapt": "quay.io/biocontainers/cutadapt:2.4--py37h14c3975_0"
-        }
+        #Map[String, String] dockerImages = {
+        #"fastqc": "quay.io/biocontainers/fastqc:0.11.7--4",
+        #"cutadapt": "quay.io/biocontainers/cutadapt:2.4--py37h14c3975_0"
+        #}
         # Only run cutadapt if it makes sense.
         Boolean runAdapterClipping = defined(adapterForward) || defined(adapterReverse) || length(select_first([contaminations, []])) > 0
     }
