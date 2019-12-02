@@ -1,7 +1,12 @@
+#
+# Author: Brad Sickler
+# Description: Pipeline that takes R1/R2 fastq's from illumina runs through, fastqc and to a final ubam output for pre-processing
+#
 
+#TODO: Make cutadapter optional. Very low priority for RNA
+#import "../tasks/subread.wdl" as cutadapt
 
 workflow fastq_to_ubam {
-    # TODO: Copying of FASTQC outputs to final output dir is a little finicky under cromwell. Fix this
     File read1_fastq
     File read2_fastq
     String sample_name
@@ -68,7 +73,7 @@ task picard_fastq_to_ubam {
     java -Xmx8G -jar /usr/picard/picard.jar FastqToSam \
         FASTQ=${Read1Fastq} \
         FASTQ2=${Read2Fastq} \
-        OUTPUT=${SampleName}_fastqtosam.bam \
+        OUTPUT=${SampleName}.unmapped.bam \
         READ_GROUP_NAME=${ReadGroup} \
         SAMPLE_NAME=${SampleName} \
         LIBRARY_NAME=${LibraryName} \
@@ -76,7 +81,7 @@ task picard_fastq_to_ubam {
         PLATFORM=illumina \
     }
     output {
-        File uBAM = "${SampleName}_fastqtosam.bam"
+        File uBAM = "${SampleName}.unmapped.bam"
     }
 
     runtime {

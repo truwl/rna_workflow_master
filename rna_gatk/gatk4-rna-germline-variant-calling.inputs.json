@@ -1,16 +1,11 @@
 {
-  "##_Overview": "I've pulled these into a resource bundle need to stage them somewhere so I've left the google cloud links to the example inputs for now - Brad",
-
   "##_COMMENT1": "Input",
-  "RNAseq.inputBam": "gs://gatk-test-data/rna_bam/NA12878_b37/NA12878.bam",
-
+  "RNAseq.inputBam": "/nfshome/bsickler/Projects/champions_rna_example/fq_ubam/CTG-0282_fastqtosam.bam",
+  
   "##_COMMENT2": "REFERENCE FILES",
   "RNAseq.refFasta": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.fasta",
   "RNAseq.refFastaIndex": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.fasta.fai",
   "RNAseq.refDict": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.dict",
-
-  "##_COMMENT3": "INTERVALS",
-  "RNAseq.wgsCallingIntervalList": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.whole_genome.interval_list",
 
   "##_COMMENT4": "RESOURCE FILES",
   "RNAseq.dbSnpVcf": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.dbsnp138.vcf",
@@ -24,25 +19,25 @@
     "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.known_indels.vcf.idx"
   ],
   "RNAseq.annotationsGTF": "/revmed/ref/ngs_pipe/rna/star.gencode.v19.transcripts.patched_contigs.gtf",
-
+  
   "##_COMMENT4": "DOCKERS",
   "#RNAseq.gatk4_docker_override": "String? (optional)",
   "#RNAseq.star_docker_override": "String? (optional)",
   "#RNAseq.gitc_docker_override": "String? (optional)",
-
+  
   "##_COMMENT5": "PATHS",
   "#RNAseq.gatk_path_override": "/gatk/gatk",
 
   "##_COMMENT6": "PREEMPTIBLES",
   "##RNAseq.preemptible_tries": "(optional) Int?",
-
+  
   "##_COMMENT7": "Misc",
-  "RNAseq.StarAlign.num_threads": 16,
+  "RNAseq.StarAlign.num_threads": 8,
   "#RNAseq.StarAlign.star_limitOutSJcollapsed": "(optional) Int?",
   "RNAseq.StarAlign.additional_disk": "50",
   "#RNAseq.StarAlign.star_mem_max_gb": "(optional) Int?",
   "RNAseq.StarGenerateReferences.addtional_disk": 50,
-  "RNAseq.StarGenerateReferences.num_threads": 16,
+  "RNAseq.StarGenerateReferences.num_threads": 8,
   "#RNAseq.StarGenerateReferences.mem_gb": "(optional) Int?",
   "#RNAseq.haplotypeScatterCount": "(optional) Int?",
   "#RNAseq.use_gatk4_for_all_tools": "(optional) Boolean",

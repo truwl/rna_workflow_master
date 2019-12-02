@@ -1,3 +1,9 @@
+#
+# This file is an example of a docker build file.
+# This isn't needed for the current pipelines as all the docker images are publicly sourced from the package maintainers directly
+# But I've left it here for future use
+#
+
 FROM broadinstitute/gatk:latest
 
 MAINTAINER Brad Sickler "brad.sickler@mode3consulting.com"

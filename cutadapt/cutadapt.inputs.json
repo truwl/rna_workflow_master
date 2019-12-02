@@ -1,0 +1,8 @@
+{
+  "QC.read1": "/revmed/user/bsickler/Projects/champions_rna_example/WES_CTG-0282_CTGGCATA-_AC9U45ANXX_L005_001.R1.fastq.gz",
+  "QC.read2": "/revmed/user/bsickler/Projects/champions_rna_example/WES_CTG-0282_CTGGCATA-_AC9U45ANXX_L005_001.R2.fastq.gz",
+  "QC.adapterForward": "AGATCGGAAGAG",
+  "QC.adapterReverse": "AGATCGGAAGAG",
+  "QC.runAdapterClipping": true,
+  "QC.readgroupName": "CTG-0282_CTGGCATA"
+}
