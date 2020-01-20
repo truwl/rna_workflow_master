@@ -199,9 +199,7 @@ workflow RNAseq {
         input:
             inputBam = ApplyBQSR.output_bam,
             inputBamIndex = ApplyBQSR.output_bam_index,
-            referenceFasta = refFastaIndex,
-            referenceFastaDict = refDict,
-            referenceFastaFai = refFastaIndex,
+            referenceFasta = refFasta,
             basename = sampleName
     }
 

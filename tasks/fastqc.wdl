@@ -7,13 +7,13 @@ task Fastqc_Light {
         String OutDir
     }
 
-    command {
+    command <<<
         mkdir -p ~{OutDir}
         fastqc --extract \
             --outdir=~{OutDir} \
-            ${Read1Fastq} \
-            ${Read2Fastq}
-    }
+            ~{Read1Fastq} \
+            ~{Read2Fastq}
+    >>>
 
     output {
         String rootDir = OutDir

@@ -4,7 +4,10 @@
 #
 
 #TODO: Make cutadapter optional. Very low priority for RNA
-import "../tasks/os_ops"
+import "../tasks/os_ops.wdl" as os_ops
+import "../tasks/cutadapt.wdl" as cutadapt
+import "../tasks/fastqc.wdl" as fastqc
+import "../tasks/samtools.wdl" as samtools
 
 workflow fastq_to_ubam {
     File read1_fastq

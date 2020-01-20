@@ -9,27 +9,27 @@ task Cutadapt_Light {
         String reportPath = "cutadapt_report.txt"
         Int? cores = 4
         String? memory = "4G"
-        String? readgroupName = sub(basename(read1),"(\.fq)?(\.fastq)?(\.gz)?", "")
-        String? read1TrimOut = readgroupName + "trimmed.R1.fastq.gz"
-        String? read2TrimOut = readgroupName + "trimmed.R2.fastq.gz"
     }
+    String readgroupName = sub(basename(read1),"(\.fq)?(\.fastq)?(\.gz)?", "")
+    String read1TrimOut = readgroupName + "trimmed.R1.fastq.gz"
+    String read2TrimOut = readgroupName + "trimmed.R2.fastq.gz"
 
-    command {
+    command <<<
         set -e
         cutadapt \
         ~{"--cores=" + cores} \
-        -a ${adapterForward} \
-        -A ${adapterReverse}
-        -o ${read1TrimOut} \
-        "-p ${read2TrimOut} \
+        -a ~{adapterForward} \
+        -A ~{adapterReverse} \
+        -o ~{read1TrimOut} \
+        -p ~{read2TrimOut} \
         ~{read1} \
         ~{read2} \
         ~{"> " + reportPath}
-    }
+    >>>
 
     output{
         File cutRead1 = read1TrimOut
-        File? cutRead2 = read2TrimOut
+        File cutRead2 = read2TrimOut
         File report = reportPath
     }
 

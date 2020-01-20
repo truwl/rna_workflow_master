@@ -5,8 +5,6 @@ task CollectMultipleMetrics {
         File inputBam
         File inputBamIndex
         File referenceFasta
-        File referenceFastaDict
-        File referenceFastaFai
         String basename
 
         Boolean collectAlignmentSummaryMetrics = true
@@ -25,10 +23,10 @@ task CollectMultipleMetrics {
     }
 
 
-    command {
+    command <<<
         set -e
         mkdir -p "$(dirname ~{basename})"
-        picard -Xmx~{javaXmx} \
+        /usr/local/bin/java -Xmx~{javaXmx} -jar /usr/local/share/picard-2.20.5-0/picard.jar \
         CollectMultipleMetrics \
         I=~{inputBam} \
         R=~{referenceFasta} \
@@ -43,7 +41,7 @@ task CollectMultipleMetrics {
         ~{true="PROGRAM=CollectSequencingArtifactMetrics" false=""
             collectSequencingArtifactMetrics} \
         ~{true="PROGRAM=CollectQualityYieldMetrics" false="" collectQualityYieldMetrics}
-    }
+    >>>
 
     output {
         File alignmentSummary = basename + ".alignment_summary_metrics"
@@ -98,9 +96,6 @@ task CollectMultipleMetrics {
         inputBamIndex: {description: "The index of the input BAM file.", category: "required"}
         referenceFasta: {description: "The reference fasta file which was also used for mapping.",
                          category: "required"}
-        referenceFastaDict: {description: "The sequence dictionary associated with the reference fasta file.",
-                             category: "required"}
-        referenceFastaFai: {description: "The index for the reference fasta file.", category: "required"}
         basename: {description: "The basename/prefix of the output files (may include directories).",
                    category: "required"}
         collectAlignmentSummaryMetrics: {description: "Equivalent to the `PROGRAM=CollectAlignmentSummaryMetrics` argument.",

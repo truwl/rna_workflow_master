@@ -47,7 +47,7 @@ workflow fastq_to_ubam {
             OutDir=sample_name,
     }
 
-    call os_ops.copy {
+    call os_ops.fs_copy {
         input:
             Files=[Cutadapt_Light.report, PicardFastqToUbam.uBAM, Fastqc_Light.rootDir],
             Destination=output_root

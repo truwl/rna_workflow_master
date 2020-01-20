@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --job-name=rna_gatk
-#SBATCH --ntasks 8
+#SBATCH --job-name=fastq_qc
+#SBATCH --ntasks 4
 #SBATCH --mail-type=END
 #SBATCH --mail-user=brad.sickler@mode3consulting.com
-#SBATCH -e rna_master_pipe.%j.err
-#SBATCH -o rna_master_pipe.%j.out
+#SBATCH -e fastq-cutadapt-ubam.%j.err
+#SBATCH -o fastq-cutadapt-ubam.%j.out
 
 set -e
 set -u
@@ -16,18 +16,19 @@ else
 fi
 
 SCRIPT_DIR=`dirname ${SCRIPT_PATH} | head -n1`
-WDL="${SCRIPT_DIR}/rna_master_pipe.wdl"
+WDL="${SCRIPT_DIR}/fastq-cutadapt-ubam.wdl"
 WF_ROOT=`realpath ${SCRIPT_DIR}/..`
 
 JAVA_BIN="/usr/bin/java"
 CROMWELL_ROOT="/revmed/user/bsickler/opt/cromwell"
 WDL_OPTIONS="${WF_ROOT}/workflow_options.json"
-CROMWELL_JAR="${CROMWELL_ROOT}/cromwell-47.jar"
+CROMWELL_JAR="${CROMWELL_ROOT}/cromwell-48.jar"
 
 INPUTS=$1
 
 echo "Running in : ${SCRIPT_DIR}"
 echo "Running on : `hostname`"
+
 
 cromwell_cmd="${JAVA_BIN} -jar ${CROMWELL_JAR} run --options ${WDL_OPTIONS} --inputs ${INPUTS} ${WDL}"
 echo ${cromwell_cmd}
