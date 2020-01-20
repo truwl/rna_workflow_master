@@ -1,5 +1,47 @@
 version 1.0
 
+task Cutadapt_Light {
+    input {
+        File read1
+        File read2
+        String? adapterForward = "AGATCGGAAGAG"  # Illumina universal adapter
+        String? adapterReverse = "AGATCGGAAGAG"  # Illumina universal adapter
+        String reportPath = "cutadapt_report.txt"
+        Int? cores = 4
+        String? memory = "4G"
+        String? readgroupName = sub(basename(read1),"(\.fq)?(\.fastq)?(\.gz)?", "")
+        String? read1TrimOut = readgroupName + "trimmed.R1.fastq.gz"
+        String? read2TrimOut = readgroupName + "trimmed.R2.fastq.gz"
+    }
+
+    command {
+        set -e
+        cutadapt \
+        ~{"--cores=" + cores} \
+        -a ${adapterForward} \
+        -A ${adapterReverse}
+        -o ${read1TrimOut} \
+        "-p ${read2TrimOut} \
+        ~{read1} \
+        ~{read2} \
+        ~{"> " + reportPath}
+    }
+
+    output{
+        File cutRead1 = read1TrimOut
+        File? cutRead2 = read2TrimOut
+        File report = reportPath
+    }
+
+    runtime {
+        cpu: cores
+        memory: memory
+        docker: "quay.io/biocontainers/cutadapt:2.4--py37h14c3975_0"
+    }
+
+}
+
+
 task Cutadapt {
     input {
         File read1

@@ -1,28 +1,29 @@
 #
 # Subread: RNA read analysis package functions
 #
+version 1.0
 
-
-task featureCounts_paired {
+task FeatureCountsPaired {
     input {
         File bam
         File gtf_annotation
-        String output_counts
-        String dockerImage
+        String sample_name
+        String? output_counts = sample_name + ".feature_counts.txt"
     }
 
-    command {
+    command <<<
         /usr/local/bin/featureCounts \
             -p \
-            -a ${gtf_annotation} \
+            -a ~{gtf_annotation} \
             -t exon \
-            -g geneid \
-            -o ${output_counts} \
-            ${bam}
-    }
+            -g gene_id \
+            -o ~{output_counts} \
+            ~{bam}
+    >>>
 
     output {
         File OutputCounts = output_counts
+        File OutputCountsSummary = output_counts + ".summary"
     }
 
     runtime {

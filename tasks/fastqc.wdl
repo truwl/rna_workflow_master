@@ -1,5 +1,29 @@
 version 1.0
 
+task Fastqc_Light {
+    input {
+        File Read1Fastq
+        File Read2Fastq
+        String OutDir
+    }
+
+    command {
+        mkdir -p ~{OutDir}
+        fastqc --extract \
+            --outdir=~{OutDir} \
+            ${Read1Fastq} \
+            ${Read2Fastq}
+    }
+
+    output {
+        String rootDir = OutDir
+    }
+
+    runtime {
+        docker: "quay.io/biocontainers/fastqc:0.11.7--4"
+    }
+}
+
 task Fastqc {
     input {
         File seqFile
@@ -18,7 +42,6 @@ task Fastqc {
         String? dir
 
         Int threads = 1
-        String dockerImage = "quay.io/biocontainers/fastqc:0.11.7--4"
         Array[File]? NoneArray
         File? NoneFile
     }
@@ -30,7 +53,7 @@ task Fastqc {
     # Just as fastqc does it.
     String reportDir = outdirPath + "/" + sub(name, "\.[^\.]*$", "_fastqc")
 
-    command {
+    command <<<
         set -e
         mkdir -p ~{outdirPath}
         fastqc \
@@ -49,7 +72,7 @@ task Fastqc {
         ~{"--kmers " + kmers} \
         ~{"--dir " + dir} \
         ~{seqFile}
-    }
+    >>>
 
     output {
         File? rawReport = if extract then reportDir + "/fastqc_data.txt" else NoneFile
@@ -61,7 +84,7 @@ task Fastqc {
 
     runtime {
         cpu: threads
-        #docker: dockerImage
+        docker: "quay.io/biocontainers/fastqc:0.11.7--4"
     }
 }
 

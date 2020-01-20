@@ -4,7 +4,7 @@
 #
 
 #TODO: Make cutadapter optional. Very low priority for RNA
-#import "../tasks/subread.wdl" as cutadapt
+import "../tasks/os_ops"
 
 workflow fastq_to_ubam {
     File read1_fastq
@@ -32,7 +32,7 @@ workflow fastq_to_ubam {
             OutDir=sample_name,
     }
 
-    call copy {
+    call os_ops.fs_copy {
         input:
             Files=[picard_fastq_to_ubam.uBAM, fastqc.rootDir],
             Destination=output_root
@@ -89,16 +89,3 @@ task picard_fastq_to_ubam {
     }
 }
 
-task copy {
-    Array[String] Files
-    String Destination
-
-    command {
-        mkdir -p ${Destination}
-        mv ${sep=' ' Files} ${Destination}
-    }
-
-    output {
-        Array[String] out = Files
-    }
-}

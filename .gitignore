@@ -5,3 +5,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Jar files
+*.jar
+opt/cromwell/*.jar

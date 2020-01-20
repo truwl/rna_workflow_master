@@ -3,19 +3,22 @@
 # Prototype method for now as I'm only using fastqc but as we add more this will be handy
 # https://multiqc.info/
 
+version 1.0
 
 task multiqc {
-    File Read1Fastq
-    File Read2Fastq
-    String OutDir
+    input {
+        File Read1Fastq
+        File Read2Fastq
+        String OutDir
+     }
 
-    command {
-        mkdir -p ${OutDir}
+    command <<<
+        mkdir -p ~{OutDir}
         fastqc --extract \
-            --outdir=${OutDir} \
-            ${Read1Fastq} \
-            ${Read2Fastq}
-    }
+            --outdir=~{OutDir} \
+            ~{Read1Fastq} \
+            ~{Read2Fastq}
+    >>>
 
     output {
         String rootDir = OutDir

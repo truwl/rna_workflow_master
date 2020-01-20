@@ -17,7 +17,7 @@ fi
 
 SCRIPT_DIR=`dirname ${SCRIPT_PATH} | head -n1`
 WDL="${SCRIPT_DIR}/gatk4-rna-best-practices.wdl"
-WF_ROOT=`dirname ${SCRIPT_DIR}`
+WF_ROOT=`realpath ${SCRIPT_DIR}/..`
 
 JAVA_BIN="/usr/bin/java"
 CROMWELL_ROOT="/revmed/user/bsickler/opt/cromwell"

@@ -1,47 +1,5 @@
 {
-  "##_COMMENT1": "Input",
-  "RNAseq.inputBam": "/nfshome/bsickler/Projects/champions_rna_example/fq_ubam/CTG-0282_fastqtosam.bam",
-
-  "##_COMMENT2": "REFERENCE FILES",
-  "RNAseq.refFasta": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.fasta",
-  "RNAseq.refFastaIndex": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.fasta.fai",
-  "RNAseq.refDict": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.dict",
-
-  "##_COMMENT4": "RESOURCE FILES",
-  "RNAseq.dbSnpVcf": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.dbsnp138.vcf",
-  "RNAseq.dbSnpVcfIndex": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.dbsnp138.vcf.idx",
-  "RNAseq.knownVcfs": [
-    "/revmed/ref/ngs_pipe/rna/Mills_and_1000G_gold_standard.indels.b37.sites.vcf",
-    "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.known_indels.vcf"
-  ],
-  "RNAseq.knownVcfsIndices": [
-    "/revmed/ref/ngs_pipe/rna/Mills_and_1000G_gold_standard.indels.b37.sites.vcf.idx",
-    "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.known_indels.vcf.idx"
-  ],
-  "RNAseq.annotationsGTF": "/revmed/ref/ngs_pipe/rna/star.gencode.v19.transcripts.patched_contigs.gtf",
-
-  "##_COMMENT4": "DOCKERS",
-  "#RNAseq.gatk4_docker_override": "String? (optional)",
-  "#RNAseq.star_docker_override": "String? (optional)",
-  "#RNAseq.gitc_docker_override": "String? (optional)",
-
-  "##_COMMENT5": "PATHS",
-  "#RNAseq.gatk_path_override": "/gatk/gatk",
-
-  "##_COMMENT6": "PREEMPTIBLES",
-  "##RNAseq.preemptible_tries": "(optional) Int?",
-
-  "##_COMMENT7": "Misc",
-  "RNAseq.StarAlign.num_threads": 8,
-  "#RNAseq.StarAlign.star_limitOutSJcollapsed": "(optional) Int?",
-  "RNAseq.StarAlign.additional_disk": "50",
-  "#RNAseq.StarAlign.star_mem_max_gb": "(optional) Int?",
-  "RNAseq.StarGenerateReferences.addtional_disk": 50,
-  "RNAseq.StarGenerateReferences.num_threads": 8,
-  "#RNAseq.StarGenerateReferences.mem_gb": "(optional) Int?",
-  "#RNAseq.haplotypeScatterCount": "(optional) Int?",
-  "#RNAseq.use_gatk4_for_all_tools": "(optional) Boolean",
-  "#RNAseq.minConfidenceForVariantCalling": "(optional) Int?",
-  "RNAseq.zippedStarReferences": "/revmed/ref/ngs_pipe/rna/star_hg19_rl125_refs.tar.gz",
-  "RNAseq.readLength": 125
+  "FC.bam" : "/nfshome/bsickler/Projects/rna_example/cromwell-executions/RNAseq/2e5e1a28-2cbd-4a38-8d4a-eb772734fcb0/call-StarAlign/execution/CTG-0282.unmapped.star.Aligned.sortedByCoord.out.bam",
+  "FC.gtf_annotation" : "/revmed/ref/ngs_pipe/rna/star.gencode.v19.transcripts.patched_contigs.gtf",
+  "FC.sample_name" : "CTG-0282"
 }

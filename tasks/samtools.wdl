@@ -1,22 +1,54 @@
 version 1.0
 
+task PicardFastqToUbam {
+    input {
+        File Read1Fastq     # First Read file of pair
+        File Read2Fastq     # Second Read file of pair
+        String SampleName   # Unique sample name. Output will be SampleName.bam
+        String LibraryName  # Library name, unique
+        String PlatformUnit # Usually run_barcode.lane e.g. H0164ALXX140820.2
+        String ReadGroup    # Unique unique readgroup name
+    }
+
+    command <<<
+    java -Xmx8G -jar /usr/picard/picard.jar FastqToSam \
+        FASTQ=~{Read1Fastq} \
+        FASTQ2=~{Read2Fastq} \
+        OUTPUT=~{SampleName}.unmapped.bam \
+        READ_GROUP_NAME=~{ReadGroup} \
+        SAMPLE_NAME=~{SampleName} \
+        LIBRARY_NAME=~{LibraryName} \
+        PLATFORM_UNIT=~{PlatformUnit} \
+        PLATFORM=illumina \
+    >>>
+
+    output {
+        File uBAM = SampleName + ".unmapped.bam"
+    }
+
+    runtime {
+        docker: 'broadinstitute/picard'
+    }
+}
+
+
+
 task BgzipAndIndex {
     input {
         File inputFile
         String outputDir
         String type = "vcf"
-
         String dockerImage = "quay.io/biocontainers/tabix:0.2.6--ha92aebf_0"
     }
 
     String outputGz = outputDir + "/" + basename(inputFile) + ".gz"
 
-    command {
+    command <<<
         set -e
         mkdir -p $(dirname ~{outputGz})
         bgzip -c ~{inputFile} > ~{outputGz}
         tabix ~{outputGz} -p ~{type}
-    }
+    >>>
 
     output {
         File compressed = outputGz
@@ -38,7 +70,7 @@ task Index {
     # Select_first is needed, otherwise womtool validate fails.
     String bamIndexPath = sub(select_first([outputBamPath]), "\.bam$", ".bai")
 
-    command {
+    command <<<
         bash -c '
         set -e
         # Make sure outputBamPath does not exist.
@@ -49,7 +81,7 @@ task Index {
         fi
         samtools index ~{outputBamPath} ~{bamIndexPath}
         '
-    }
+    >>>
 
     output {
         File indexedBam = outputBamPath
@@ -71,12 +103,12 @@ task Merge {
     }
     String indexPath = sub(outputBamPath, "\.bam$",".bai")
 
-    command {
+    command <<<
         set -e
         mkdir -p $(dirname ~{outputBamPath})
         samtools merge ~{true="-f" false="" force} ~{outputBamPath} ~{sep=' ' bamFiles}
         samtools index ~{outputBamPath} ~{indexPath}
-    }
+    >>>
 
     output {
         File outputBam = outputBamPath
@@ -96,11 +128,11 @@ task Markdup {
         String dockerImage = "quay.io/biocontainers/samtools:1.8--h46bd0b3_5"
     }
 
-    command {
+    command <<<
         set -e
         mkdir -p $(dirname ~{outputBamPath})
         samtools markdup ~{inputBam} ~{outputBamPath}
-    }
+    >>>
 
     output {
         File outputBam = outputBamPath
@@ -119,11 +151,11 @@ task Flagstat {
         String dockerImage = "quay.io/biocontainers/samtools:1.8--h46bd0b3_5"
     }
 
-    command {
+    command <<<
         set -e
         mkdir -p $(dirname ~{outputPath})
         samtools flagstat ~{inputBam} > ~{outputPath}
-    }
+    >>>
 
     output {
         File flagstat = outputPath
@@ -152,7 +184,7 @@ task Fastq {
         String dockerImage = "quay.io/biocontainers/samtools:1.8--h46bd0b3_5"
     }
 
-    command {
+    command <<<
         samtools fastq \
         ~{true="-1" false="-s" defined(outputRead2)} ~{outputRead1} \
         ~{"-2 " + outputRead2} \
@@ -165,7 +197,7 @@ task Fastq {
         ~{"-c " + compressionLevel} \
         ~{"--threads " + threads} \
         ~{inputBam}
-    }
+    >>>
 
     output {
         File read1 = outputRead1
@@ -198,7 +230,7 @@ task Tabix {
         String dockerImage = "quay.io/biocontainers/tabix:0.2.6--ha92aebf_0"
     }
     # FIXME: It is better to do the indexing on VCF creation. Not in a separate task. With file localization this gets hairy fast.
-    command {
+    command <<<
         set -e
         mkdir -p $(dirname ~{outputFilePath})
         if [ ! -f ~{outputFilePath} ]
@@ -206,7 +238,7 @@ task Tabix {
             ln ~{inputFile} ~{outputFilePath}
         fi
         tabix ~{outputFilePath} -p ~{type}
-    }
+    >>>
 
     output {
         File indexedFile = outputFilePath
@@ -236,7 +268,7 @@ task View {
     String outputIndexPath = basename(outputFileName) + ".bai"
 
     # Always output to bam and output header
-    command {
+    command <<<
         set -e
         mkdir -p $(dirname ~{outputFileName})
         samtools view -b \
@@ -250,7 +282,7 @@ task View {
         ~{"--threads " + (threads - 1)} \
         ~{inFile}
         samtools index ~{outputFileName} ~{outputIndexPath}
-    }
+    >>>
 
     output {
         File outputBam = outputFileName

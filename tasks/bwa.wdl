@@ -18,7 +18,7 @@ task Mem {
         String dockerImage = "quay.io/biocontainers/mulled-v2-002f51ea92721407ef440b921fb5940f424be842:43ec6124f9f4f875515f9548733b8b4e5fed9aa6-0"
     }
 
-    command {
+    command <<<
         set -e -o pipefail
         mkdir -p $(dirname ~{outputPath})
         bwa mem \
@@ -32,7 +32,7 @@ task Mem {
         OUTPUT=~{outputPath} \
         SORT_ORDER=coordinate \
         CREATE_INDEX=true
-    }
+    >>>
 
     output {
         File outputBam = outputPath
@@ -59,7 +59,7 @@ task Index {
     String fastaFilename = basename(fasta)
     String outputFile = if (defined(outputDir)) then outputDir + "/" + fastaFilename else fasta
 
-    command {
+    command <<<
         set -e -o pipefail
         ~{"mkdir -p " + outputDir}
         ~{preCommand}
@@ -71,7 +71,7 @@ task Index {
         ~{"-a " + constructionAlgorithm} \
         ~{"-b" + blockSize} \
         ~{outputFile}
-    }
+    >>>
 
     output {
         BwaIndex outputIndex = object {
