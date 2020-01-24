@@ -206,30 +206,30 @@ workflow RNAseq {
             basename = sampleName
     }
 
-    Array[File] multiqc_inputs = [
-        picard_metrics.alignmentSummary,
-        picard_metrics.baitBiasDetail,
-        picard_metrics.baitBiasSummary,
-        picard_metrics.baseDistributionByCycle,
-        picard_metrics.baseDistributionByCyclePdf,
-        picard_metrics.errorSummary,
-        picard_metrics.gcBiasDetail,
-        picard_metrics.gcBiasPdf,
-        picard_metrics.gcBiasSummary,
-        picard_metrics.insertSizeHistogramPdf,
-        picard_metrics.insertSize,
-        picard_metrics.preAdapterDetail,
-        picard_metrics.preAdapterSummary,
-        picard_metrics.qualityByCycle,
-        picard_metrics.qualityByCyclePdf,
-        picard_metrics.qualityDistribution,
-        picard_metrics.qualityDistributionPdf,
-        picard_metrics.qualityYield
-    ]
-    call multiqc.multiqc {
-        input:
-            multiqc_src_files = multiqc_inputs
-    }
+#    Array[File] multiqc_inputs = [
+#        picard_metrics.alignmentSummary,
+#        picard_metrics.baitBiasDetail,
+#        picard_metrics.baitBiasSummary,
+#        picard_metrics.baseDistributionByCycle,
+#        picard_metrics.baseDistributionByCyclePdf,
+#        picard_metrics.errorSummary,
+#        picard_metrics.gcBiasDetail,
+#        picard_metrics.gcBiasPdf,
+#        picard_metrics.gcBiasSummary,
+#        picard_metrics.insertSizeHistogramPdf,
+#        picard_metrics.insertSize,
+#        picard_metrics.preAdapterDetail,
+#        picard_metrics.preAdapterSummary,
+#        picard_metrics.qualityByCycle,
+#        picard_metrics.qualityByCyclePdf,
+#        picard_metrics.qualityDistribution,
+#        picard_metrics.qualityDistributionPdf,
+#        picard_metrics.qualityYield
+#    ]
+#    call multiqc.multiqc {
+#        input:
+#            multiqc_src_files = multiqc_inputs
+#    }
 
     call gatk.ScatterIntervalList {
         input:
@@ -310,8 +310,8 @@ workflow RNAseq {
         picard_metrics.qualityDistribution,
         picard_metrics.qualityDistributionPdf,
         picard_metrics.qualityYield,
-        multiqc.report,
-        multiqc.outdir,
+#        multiqc.report,
+#        multiqc.outdir,
     ]
     # This will copy them in a scatter gather fashion.
     scatter(of in OutputFiles) {
@@ -347,7 +347,7 @@ workflow RNAseq {
         File qualityDistribution = picard_metrics.qualityDistribution
         File qualityDistributionPdf = picard_metrics.qualityDistributionPdf
         File qualityYield = picard_metrics.qualityYield
-        File multiqcReport = multiqc.report
-        File multiqcOutdir = multiqc.outdir
+#        File multiqcReport = multiqc.report
+#        File multiqcOutdir = multiqc.outdir
 	}
 }
