@@ -20,9 +20,9 @@ WDL="${SCRIPT_DIR}/fastq-cutadapt-ubam.wdl"
 WF_ROOT=`realpath ${SCRIPT_DIR}/..`
 
 JAVA_BIN="/usr/bin/java"
-CROMWELL_ROOT="/revmed/user/bsickler/opt/cromwell"
+CROMWELL_ROOT="${WF_ROOT}/opt/cromwell"
 WDL_OPTIONS="${WF_ROOT}/workflow_options.json"
-CROMWELL_JAR="${CROMWELL_ROOT}/cromwell-48.jar"
+CROMWELL_JAR="${CROMWELL_ROOT}/cromwell.jar"
 
 INPUTS=$1
 

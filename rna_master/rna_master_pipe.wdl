@@ -7,7 +7,8 @@
 ## Output :
 ## - A BAM file and its index.
 ## - A VCF file and its index. 
-## - A Filtered VCF file and its index. 
+## - A Filtered VCF file and its index.
+## - Tons of metrics
 ##
 
 version 1.0
@@ -16,12 +17,14 @@ import "../tasks/gatk_tasks.wdl" as gatk
 import "../tasks/kallisto.wdl" as kallisto
 import "../tasks/picard.wdl" as picard
 import "../tasks/subread.wdl" as subread
+import "../tasks/os_ops.wdl" as os_ops
+import "../tasks/multiqc.wdl" as multiqc
 
 workflow RNAseq {
-
     input {
-        File inputBam
-        String sampleName = basename(inputBam,".bam")
+        String inputBamS3
+        String sampleName = basename(inputBamS3,".bam")
+        String outputRootS3
 
         File refFasta
         File refFastaIndex
@@ -39,7 +42,6 @@ workflow RNAseq {
 
         File dbSnpVcf
         File dbSnpVcfIndex
-
         Int? minConfidenceForVariantCalling
 
         ## Inputs for STAR
@@ -67,9 +69,14 @@ workflow RNAseq {
 	        docker = gatk4_docker
 	}
 
+	call os_ops.s3_copy as s3_bam_cp {
+       input:
+         s3_path = inputBamS3
+    }
+
 	call gatk.RevertSam {
 		input:
-			input_bam = inputBam,
+			input_bam = s3_bam_cp.s3_out,
 			base_name = sampleName + ".reverted",
 			sort_order = "queryname",
 			preemptible_count = preemptible_count,
@@ -87,7 +94,6 @@ workflow RNAseq {
 	}
 
 	if (!defined(zippedStarReferences)) {
-
 		call gatk.StarGenerateReferences {
 			input:
 				ref_fasta = refFasta,
@@ -100,7 +106,6 @@ workflow RNAseq {
 	}
 
 	File starReferences = select_first([zippedStarReferences,StarGenerateReferences.star_genome_refs_zipped,""])
-
 	call gatk.StarAlign {
 		input: 
 			star_genome_refs_zipped = starReferences,
@@ -133,7 +138,6 @@ workflow RNAseq {
 			gatk_path = gatk_path
 	}
 
-
     call gatk.SplitNCigarReads {
         input:
             input_bam = MarkDuplicates.output_bam,
@@ -147,7 +151,6 @@ workflow RNAseq {
             docker = gatk4_docker,
             gatk_path = gatk_path
     }
-
 
 	call gatk.BaseRecalibrator {
 		input:
@@ -195,12 +198,37 @@ workflow RNAseq {
             sample_name = sampleName
     }
 
-    call picard.CollectMultipleMetrics {
+    call picard.CollectMultipleMetrics as picard_metrics {
         input:
             inputBam = ApplyBQSR.output_bam,
             inputBamIndex = ApplyBQSR.output_bam_index,
             referenceFasta = refFasta,
             basename = sampleName
+    }
+
+    Array[File] multiqc_inputs = [
+        picard_metrics.alignmentSummary,
+        picard_metrics.baitBiasDetail,
+        picard_metrics.baitBiasSummary,
+        picard_metrics.baseDistributionByCycle,
+        picard_metrics.baseDistributionByCyclePdf,
+        picard_metrics.errorSummary,
+        picard_metrics.gcBiasDetail,
+        picard_metrics.gcBiasPdf,
+        picard_metrics.gcBiasSummary,
+        picard_metrics.insertSizeHistogramPdf,
+        picard_metrics.insertSize,
+        picard_metrics.preAdapterDetail,
+        picard_metrics.preAdapterSummary,
+        picard_metrics.qualityByCycle,
+        picard_metrics.qualityByCyclePdf,
+        picard_metrics.qualityDistribution,
+        picard_metrics.qualityDistributionPdf,
+        picard_metrics.qualityYield
+    ]
+    call multiqc.multiqc {
+        input:
+            multiqc_src_files = multiqc_inputs
     }
 
     call gatk.ScatterIntervalList {
@@ -211,7 +239,6 @@ workflow RNAseq {
             docker = gatk4_docker,
             gatk_path = gatk_path
     }
-
 
 	scatter (interval in ScatterIntervalList.out) {
         call gatk.HaplotypeCaller {
@@ -258,6 +285,43 @@ workflow RNAseq {
 			gatk_path = gatk_path
 	}
 
+    Array[File] OutputFiles = [
+        ApplyBQSR.output_bam,
+        ApplyBQSR.output_bam_index,
+        MergeVCFs.output_vcf,
+        MergeVCFs.output_vcf_index,
+        VariantFiltration.output_vcf,
+        VariantFiltration.output_vcf_index,
+        picard_metrics.alignmentSummary,
+        picard_metrics.baitBiasDetail,
+        picard_metrics.baitBiasSummary,
+        picard_metrics.baseDistributionByCycle,
+        picard_metrics.baseDistributionByCyclePdf,
+        picard_metrics.errorSummary,
+        picard_metrics.gcBiasDetail,
+        picard_metrics.gcBiasPdf,
+        picard_metrics.gcBiasSummary,
+        picard_metrics.insertSizeHistogramPdf,
+        picard_metrics.insertSize,
+        picard_metrics.preAdapterDetail,
+        picard_metrics.preAdapterSummary,
+        picard_metrics.qualityByCycle,
+        picard_metrics.qualityByCyclePdf,
+        picard_metrics.qualityDistribution,
+        picard_metrics.qualityDistributionPdf,
+        picard_metrics.qualityYield,
+        multiqc.report,
+        multiqc.outdir,
+    ]
+    # This will copy them in a scatter gather fashion.
+    scatter(of in OutputFiles) {
+        call os_ops.s3_push{
+            input:
+                FileToPush=of,
+                DestinationRoot=outputRootS3
+        }
+    }
+
 	output {
 		File recalibrated_bam = ApplyBQSR.output_bam
 		File recalibrated_bam_index = ApplyBQSR.output_bam_index
@@ -265,5 +329,25 @@ workflow RNAseq {
 		File merged_vcf_index = MergeVCFs.output_vcf_index
 		File variant_filtered_vcf = VariantFiltration.output_vcf
 		File variant_filtered_vcf_index = VariantFiltration.output_vcf_index
+        File alignmentSummary = picard_metrics.alignmentSummary
+        File baitBiasDetail = picard_metrics.baitBiasDetail
+        File baitBiasSummary = picard_metrics.baitBiasSummary
+        File baseDistributionByCycle = picard_metrics.baseDistributionByCycle
+        File baseDistributionByCyclePdf = picard_metrics.baseDistributionByCyclePdf
+        File errorSummary = picard_metrics.errorSummary
+        File gcBiasDetail = picard_metrics.gcBiasDetail
+        File gcBiasPdf = picard_metrics.gcBiasPdf
+        File gcBiasSummary = picard_metrics.gcBiasSummary
+        File insertSizeHistogramPdf = picard_metrics.insertSizeHistogramPdf
+        File insertSize = picard_metrics.insertSize
+        File preAdapterDetail = picard_metrics.preAdapterDetail
+        File preAdapterSummary = picard_metrics.preAdapterSummary
+        File qualityByCycle = picard_metrics.qualityByCycle
+        File qualityByCyclePdf = picard_metrics.qualityByCyclePdf
+        File qualityDistribution = picard_metrics.qualityDistribution
+        File qualityDistributionPdf = picard_metrics.qualityDistributionPdf
+        File qualityYield = picard_metrics.qualityYield
+        File multiqcReport = multiqc.report
+        File multiqcOutdir = multiqc.outdir
 	}
 }

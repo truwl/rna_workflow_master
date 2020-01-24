@@ -7,12 +7,10 @@ All of these pipelines requre an install of java (1.8+) and a download of cromwe
 To install java run 
  * sudo yum install java-1.8.0-openjdk
 
-Then download cromwell and womtool to /opt/cromwell
- * sudo mkdir /opt/cromwell; cd /opt/cromwell
- * wget https://github.com/broadinstitute/cromwell/releases/download/47/cromwell-47.jar
- * wget https://github.com/broadinstitute/cromwell/releases/download/47/womtool-47.jar
+Then download cromwell and womtool to opt/cromwell
+ * bash pull_cromwell.sh
 
-And docker needs to work. More advanced cromwell integration (AWS/SLURM) is covered seperately.
+And docker needs to work. More advanced cromwell integration (AWS/SLURM) is covered separately.
 
 ## fastq_processing
 Quick WDL to QC fastq files then process them into unaligned bams. 

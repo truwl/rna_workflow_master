@@ -20,9 +20,9 @@ WDL="${SCRIPT_DIR}/rna_master_pipe.wdl"
 WF_ROOT=`realpath ${SCRIPT_DIR}/..`
 
 JAVA_BIN="/usr/bin/java"
-CROMWELL_ROOT="/revmed/user/bsickler/opt/cromwell"
+CROMWELL_ROOT="${WF_ROOT}/opt/cromwell"
 WDL_OPTIONS="${WF_ROOT}/workflow_options.json"
-CROMWELL_JAR="${CROMWELL_ROOT}/cromwell-47.jar"
+CROMWELL_JAR="${CROMWELL_ROOT}/cromwell.jar"
 
 INPUTS=$1
 

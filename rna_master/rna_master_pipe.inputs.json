@@ -1,6 +1,6 @@
 {
-  "RNAseq.inputBam": "/nfshome/bsickler/Projects/champions_rna_example/fq_ubam/CTG-0282_fastqtosam.bam",
-  
+  "RNAseq.inputBamS3": "s3://preclinical.rmc-4630.revmed.com/output/RnaTest/CTG-0211/CTG-0211.unmapped.marked.bam",
+  "RNAseq.outputRootS3": "s3://preclinical.rmc-4630.revmed.com/output/RnaTest/outputs/CTG-0211",
   "RNAseq.refFasta": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.fasta",
   "RNAseq.refFastaIndex": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.fasta.fai",
   "RNAseq.refDict": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.dict",
@@ -16,7 +16,7 @@
     "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.known_indels.vcf.idx"
   ],
   "RNAseq.annotationsGTF": "/revmed/ref/ngs_pipe/rna/star.gencode.v19.transcripts.patched_contigs.gtf",
-  
+  "RNAseq.killistoIndex": "/revmed/ref/ngs_pipe/rna/kallisto/GRCh37_homo_sapiens/Homo_sapiens.GRCh37.75.cdna.all.idx",
   "RNAseq.StarAlign.num_threads": 8,
   "RNAseq.StarGenerateReferences.num_threads": 8,
   "RNAseq.zippedStarReferences": "/revmed/ref/ngs_pipe/rna/star_hg19_rl125_refs.tar.gz",

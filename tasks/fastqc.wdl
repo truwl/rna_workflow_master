@@ -4,8 +4,8 @@ task Fastqc_Light {
     input {
         File Read1Fastq
         File Read2Fastq
-        String OutDir
     }
+    String OutDir = 'FastQC'
 
     command <<<
         mkdir -p ~{OutDir}
@@ -16,7 +16,7 @@ task Fastqc_Light {
     >>>
 
     output {
-        String rootDir = OutDir
+        File rootDir = OutDir
     }
 
     runtime {

@@ -1,5 +1,33 @@
 version 1.0
 
+task MarkIlluminaAdapters {
+    input {
+        File inputBam
+        String picard_tmp
+        String javaXmx = "8G"
+    }
+    String adapter_metrics_out = "mark_illumina_adapters_metrics.txt"
+
+    command <<<
+        java -Xmx~{javaXmx} -jar /usr/picard/picard.jar MarkIlluminaAdapters \
+        INPUT=~{inputBam} \
+        OUTPUT=~{basename(inputBam, ".bam")}.marked.bam \
+        METRICS=~{adapter_metrics_out} \
+        TMP_DIR=~{picard_tmp}
+    >>>
+
+    output {
+        File adapter_metrics = adapter_metrics_out
+        File marked_bam = basename(inputBam, ".bam") + ".marked.bam"
+    }
+
+    runtime {
+        docker: 'broadinstitute/picard'
+    }
+
+}
+
+
 task PicardFastqToUbam {
     input {
         File Read1Fastq     # First Read file of pair

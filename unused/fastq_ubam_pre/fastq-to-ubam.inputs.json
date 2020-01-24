@@ -1,0 +1,10 @@
+{
+  "FastqUbam.sample_name": "CTG-0282",
+  "FastqUbam.read_group": "CTG-0282_CTGGCATA",
+  "FastqUbam.library_name": "0282_CTGGCATA",
+  "FastqUbam.platform_unit": "C9U45ANXX.5",
+  "FastqUbam.read1_fastq": "/revmed/user/bsickler/Projects/champions_rna_example/WES_CTG-0282_CTGGCATA-_AC9U45ANXX_L005_001.R1.fastq.gz",
+  "FastqUbam.read2_fastq": "/revmed/user/bsickler/Projects/champions_rna_example/WES_CTG-0282_CTGGCATA-_AC9U45ANXX_L005_001.R2.fastq.gz",
+  "FastqUbam.output_root": "/revmed/user/bsickler/Projects/champions_rna_example/fq_ubam",
+  "FastqUbam.picard_tmp": "/revmed/lscratch"
+}

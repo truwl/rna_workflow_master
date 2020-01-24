@@ -7,24 +7,19 @@ version 1.0
 
 task multiqc {
     input {
-        File Read1Fastq
-        File Read2Fastq
-        String OutDir
+        Array[File] multiqc_src_files
      }
 
     command <<<
-        mkdir -p ~{OutDir}
-        fastqc --extract \
-            --outdir=~{OutDir} \
-            ~{Read1Fastq} \
-            ~{Read2Fastq}
+        multiqc `pwd`
     >>>
 
     output {
-        String rootDir = OutDir
+        File report = "multiqc_report.html"
+        File outdir = "multiqc_data"
     }
 
     runtime {
-        docker: "ewels/multiqc:v1.8"
+        docker: "ewels/multiqc"
     }
 }

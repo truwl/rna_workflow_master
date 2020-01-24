@@ -9,7 +9,7 @@ import "../tasks/cutadapt.wdl" as cutadapt
 import "../tasks/fastqc.wdl" as fastqc
 import "../tasks/samtools.wdl" as samtools
 
-workflow fastq_to_ubam {
+workflow FastqUbam {
     File read1_fastq
     File read2_fastq
     String sample_name
