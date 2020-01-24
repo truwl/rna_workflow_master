@@ -64,26 +64,26 @@ task CollectMultipleMetrics {
         File qualityDistributionPdf = basename + ".quality_distribution.pdf"
         File qualityYield = basename + ".quality_yield_metrics"
         # Using a glob is easier. But will lead to very ugly output directories.
-        Array[File] allStats = select_all([
-            alignmentSummary,
-            baitBiasDetail,
-            baitBiasSummary,
-            baseDistributionByCycle,
-            baseDistributionByCyclePdf,
-            errorSummary,
-            gcBiasDetail,
-            gcBiasPdf,
-            gcBiasSummary,
-            insertSizeHistogramPdf,
-            insertSize,
-            preAdapterDetail,
-            preAdapterSummary,
-            qualityByCycle,
-            qualityByCyclePdf,
-            qualityDistribution,
-            qualityDistributionPdf,
-            qualityYield
-        ])
+#        Array[File] allStats = select_all([
+#            alignmentSummary,
+#            baitBiasDetail,
+#            baitBiasSummary,
+#            baseDistributionByCycle,
+#            baseDistributionByCyclePdf,
+#            errorSummary,
+#            gcBiasDetail,
+#            gcBiasPdf,
+#            gcBiasSummary,
+#            insertSizeHistogramPdf,
+#            insertSize,
+#            preAdapterDetail,
+#            preAdapterSummary,
+#            qualityByCycle,
+#            qualityByCyclePdf,
+#            qualityDistribution,
+#            qualityDistributionPdf,
+#            qualityYield
+#        ])
     }
 
     runtime {
