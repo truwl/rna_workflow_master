@@ -17,6 +17,7 @@ task FeatureCountsPaired {
             -a ~{gtf_annotation} \
             -t exon \
             -g gene_id \
+            -s 2 \
             -o ~{output_counts} \
             ~{bam}
     >>>
@@ -27,6 +28,7 @@ task FeatureCountsPaired {
     }
 
     runtime {
-        docker: "rssbred/rnacocktail"
+        #docker: "rssbred/rnacocktail"
+        docker: "quay.io/biocontainers/subread:1.6.4--h84994c4_1"
     }
 }

@@ -24,6 +24,7 @@ workflow RNAseq {
     input {
         String inputBamS3
         String sampleName = basename(inputBamS3,".bam")
+        String sampleName = basename(sampleName,".unmapped.marked")
         String outputRootS3
 
         File refFasta
@@ -292,6 +293,11 @@ workflow RNAseq {
         MergeVCFs.output_vcf_index,
         VariantFiltration.output_vcf,
         VariantFiltration.output_vcf_index,
+        kallisto.abundances_tsv,
+        kallisto.abundances_h5,
+        kallisto.run_info,
+        FeatureCountsPaired.OutputCounts,
+        FeatureCountsPaired.OutputCountsSummary,
         picard_metrics.alignmentSummary,
         picard_metrics.baitBiasDetail,
         picard_metrics.baitBiasSummary,
@@ -310,8 +316,8 @@ workflow RNAseq {
         picard_metrics.qualityDistribution,
         picard_metrics.qualityDistributionPdf,
         picard_metrics.qualityYield,
-#        multiqc.report,
-#        multiqc.outdir,
+        # multiqc.report,
+        # multiqc.outdir,
     ]
     # This will copy them in a scatter gather fashion.
     scatter(of in OutputFiles) {
@@ -329,6 +335,11 @@ workflow RNAseq {
 		File merged_vcf_index = MergeVCFs.output_vcf_index
 		File variant_filtered_vcf = VariantFiltration.output_vcf
 		File variant_filtered_vcf_index = VariantFiltration.output_vcf_index
+        File kallisto_abundances_tsv = kallisto.abundances_tsv
+        File kallisto_abundances_h5 = kallisto.abundances_h5
+        File kallisto_run_info = kallisto.run_info
+        File featureCountsPaired = FeatureCountsPaired.OutputCounts
+        File outputCountsSummary = FeatureCountsPaired.OutputCountsSummary
         File alignmentSummary = picard_metrics.alignmentSummary
         File baitBiasDetail = picard_metrics.baitBiasDetail
         File baitBiasSummary = picard_metrics.baitBiasSummary

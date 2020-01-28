@@ -4,10 +4,11 @@ A lot of this is sourced from https://github.com/biowdl
 
 ## Install
 All of these pipelines requre an install of java (1.8+) and a download of cromwell to run.
-To install java run 
+To install java run. On most computer this should be installed by default. If not:
  * sudo yum install java-1.8.0-openjdk
 
-Then download cromwell and womtool to opt/cromwell
+Once you download the repo the scripts expect cromwell to exist in opt/cromwell/cromwell.jar
+Running the following script will Then download cromwell and womtool to opt/cromwell
  * bash pull_cromwell.sh
 
 And docker needs to work. More advanced cromwell integration (AWS/SLURM) is covered separately.

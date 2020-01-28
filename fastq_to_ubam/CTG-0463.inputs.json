@@ -1,0 +1,10 @@
+{
+  "FastqCutUbam.sample_name": "CTG-0463",
+  "FastqCutUbam.read_group": "CTG-0463_GCCAAT",
+  "FastqCutUbam.library_name": "0463_GCCAAT",
+  "FastqCutUbam.platform_unit": "CA5HAANXX.3",
+  "FastqCutUbam.s3_read1_fastq": "s3://cro-vendor.revolutionmedicines.com/Champions/RNAseq_CTG-0463_GCCAAT_ACA5HAANXX_L003_R1_001.fastq.gz",
+  "FastqCutUbam.s3_read2_fastq": "s3://cro-vendor.revolutionmedicines.com/Champions/RNAseq_CTG-0463_GCCAAT_ACA5HAANXX_L003_R2_001.fastq.gz",
+  "FastqCutUbam.output_root": "s3://preclinical.rmc-4630.revmed.com/output/RnaTest/CTG-0463",
+  "FastqCutUbam.picard_tmp": "/revmed/lscratch"
+}
