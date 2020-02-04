@@ -5,6 +5,22 @@
 
 version 1.0
 
+task gzip {
+    input {
+        File to_zip
+    }
+
+    command <<<
+        gzip --force ~{to_zip}
+    >>>
+
+    output {
+        File zipped = to_zip + '.gz'
+    }
+}
+
+
+
 task s3_copy {
     input {
         String s3_path
@@ -67,6 +83,24 @@ task s3_push {
     }
 }
 
+task s3_push_single {
+    input {
+        File FileToPush
+        String Destination
+    }
+
+    command <<<
+        if [[ -d "~{FileToPush}" ]]; then
+            aws s3 cp --no-progress --acl bucket-owner-full-control --recursive ~{FileToPush}  ~{Destination}
+        else
+            aws s3 cp --no-progress --acl bucket-owner-full-control ~{FileToPush}  ~{Destination}
+        fi
+    >>>
+
+    output {
+        String S3Path = Destination
+    }
+}
 
 task s3_push_files {
     input {

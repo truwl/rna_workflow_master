@@ -23,8 +23,7 @@ import "../tasks/multiqc.wdl" as multiqc
 workflow RNAseq {
     input {
         String inputBamS3
-        String sampleName = basename(inputBamS3,".bam")
-        String sampleName = basename(sampleName,".unmapped.marked")
+        String sampleName = sub(basename(inputBamS3,".bam"), '.unmapped.marked', '')
         String outputRootS3
 
         File refFasta
@@ -286,11 +285,11 @@ workflow RNAseq {
 			gatk_path = gatk_path
 	}
 
-    Array[File] OutputFiles = [
+    Array[File] BaseOutputFiles = [
         ApplyBQSR.output_bam,
         ApplyBQSR.output_bam_index,
-        MergeVCFs.output_vcf,
-        MergeVCFs.output_vcf_index,
+        #MergeVCFs.output_vcf,
+        #MergeVCFs.output_vcf_index,
         VariantFiltration.output_vcf,
         VariantFiltration.output_vcf_index,
         kallisto.abundances_tsv,
@@ -298,6 +297,17 @@ workflow RNAseq {
         kallisto.run_info,
         FeatureCountsPaired.OutputCounts,
         FeatureCountsPaired.OutputCountsSummary,
+    ]
+    # This will copy them in a scatter gather fashion.
+    scatter(of in BaseOutputFiles) {
+        call os_ops.s3_push as base_push {
+            input:
+                FileToPush=of,
+                DestinationRoot=outputRootS3
+        }
+    }
+
+    Array[File] MetricsFiles = [
         picard_metrics.alignmentSummary,
         picard_metrics.baitBiasDetail,
         picard_metrics.baitBiasSummary,
@@ -319,12 +329,13 @@ workflow RNAseq {
         # multiqc.report,
         # multiqc.outdir,
     ]
+
     # This will copy them in a scatter gather fashion.
-    scatter(of in OutputFiles) {
-        call os_ops.s3_push{
+    scatter(of in MetricsFiles) {
+        call os_ops.s3_push as metrics_push {
             input:
                 FileToPush=of,
-                DestinationRoot=outputRootS3
+                DestinationRoot=outputRootS3 + '/metrics'
         }
     }
 

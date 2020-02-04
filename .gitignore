@@ -8,4 +8,6 @@ __pycache__/
 
 # Jar files
 *.jar
-opt/cromwell/*.jar
+
+# Binaries kept here
+opt/

@@ -2,7 +2,6 @@
 #SBATCH --job-name=fastq_qc
 #SBATCH --ntasks 4
 #SBATCH --mail-type=END
-#SBATCH --mail-user=brad.sickler@mode3consulting.com
 #SBATCH -e fastq-cutadapt-ubam.%j.err
 #SBATCH -o fastq-cutadapt-ubam.%j.out
 

@@ -1,0 +1,7 @@
+{
+  "Demoused.s3_read1_fastq": "s3://cro-vendor.revolutionmedicines.com/Champions/RNAseq_CTG-0282_TAATGCGC-ATAGAGGC_AC9WCJANXX_L004_001.R1.fastq.gz",
+  "Demoused.s3_read2_fastq": "s3://cro-vendor.revolutionmedicines.com/Champions/RNAseq_CTG-0282_TAATGCGC-ATAGAGGC_AC9WCJANXX_L004_001.R2.fastq.gz",
+  "Demoused.mouse_ref": "/revmed/ref/ngs_pipe/rna/mm10_GRCm38.p6.fasta",
+  "Demoused.human_ref": "/revmed/ref/ngs_pipe/rna/Homo_sapiens_assembly19_1000genomes_decoy.fasta",
+  "Demoused.s3_output_root": "s3://preclinical.rmc-4630.revmed.com/output/RnaTest/CTG-0282_demoused"
+ }

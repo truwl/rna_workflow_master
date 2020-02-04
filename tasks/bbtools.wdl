@@ -7,15 +7,12 @@
 #
 version 1.0
 
-task FeatureCountsPaired {
+task BbSplitMouse {
     input {
         File fastq_r1
         File fastq_r2
         File human_ref
         File mouse_ref
-        File gtf_annotation
-        String sample_name
-        String? output_counts = sample_name + ".feature_counts.txt"
     }
 
     command <<<
@@ -35,11 +32,11 @@ task FeatureCountsPaired {
         File ReferenceStats = "bbsplit_refmap_stats.txt"
         File HumanR1 = "split_human_1.fq"
         File HumanR2 = "split_human_2.fq"
-        File MouseR1 = "split_human_1.fq"
-        File MouseR2 = "split_human_2.fq"
+        File MouseR1 = "split_mouse_1.fq"
+        File MouseR2 = "split_mouse_2.fq"
     }
 
     runtime {
-        docker: "docker run quay.io/biocontainers/bbmap:38.75--h516909a_0"
+        docker: "quay.io/biocontainers/bbmap:38.75--h516909a_0"
     }
 }

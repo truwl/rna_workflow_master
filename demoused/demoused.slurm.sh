@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --job-name=rna_gatk
-#SBATCH --ntasks 8
+#SBATCH --job-name=demoused
+#SBATCH --ntasks 16
 #SBATCH --mail-type=END
-#SBATCH -e rna_master_pipe.%j.err
-#SBATCH -o rna_master_pipe.%j.out
+#SBATCH -e demoused.%j.err
+#SBATCH -o demoused.%j.out
 
 set -e
 set -u
@@ -15,7 +15,7 @@ else
 fi
 
 SCRIPT_DIR=`dirname ${SCRIPT_PATH} | head -n1`
-WDL="${SCRIPT_DIR}/rna_master_pipe.wdl"
+WDL="${SCRIPT_DIR}/demoused.wdl"
 WF_ROOT=`realpath ${SCRIPT_DIR}/..`
 
 JAVA_BIN="/usr/bin/java"

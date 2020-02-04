@@ -148,6 +148,31 @@ task Merge {
     }
 }
 
+task MergeNoIndex {
+    input {
+        Array[File]+ bamFiles
+        String outputBamPath = "merged.bam"
+        Boolean force = true
+
+        String dockerImage = "quay.io/biocontainers/samtools:1.8--h46bd0b3_5"
+    }
+    String indexPath = sub(outputBamPath, "\.bam$",".bai")
+
+    command <<<
+        set -e
+        mkdir -p $(dirname ~{outputBamPath})
+        samtools merge ~{true="-f" false="" force} ~{outputBamPath} ~{sep=' ' bamFiles}
+    >>>
+
+    output {
+        File outputBam = outputBamPath
+    }
+
+    runtime {
+        docker: dockerImage
+    }
+}
+
 task Markdup {
     input {
         File inputBam

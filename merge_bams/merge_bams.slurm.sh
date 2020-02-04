@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --job-name=rna_gatk
+#SBATCH --job-name=merge_bams
 #SBATCH --ntasks 8
 #SBATCH --mail-type=END
-#SBATCH -e rna_master_pipe.%j.err
-#SBATCH -o rna_master_pipe.%j.out
+#SBATCH -e merge_bams.%j.err
+#SBATCH -o merge_bams.%j.out
 
 set -e
 set -u
@@ -15,7 +15,7 @@ else
 fi
 
 SCRIPT_DIR=`dirname ${SCRIPT_PATH} | head -n1`
-WDL="${SCRIPT_DIR}/rna_master_pipe.wdl"
+WDL="${SCRIPT_DIR}/merge_bams.wdl"
 WF_ROOT=`realpath ${SCRIPT_DIR}/..`
 
 JAVA_BIN="/usr/bin/java"
