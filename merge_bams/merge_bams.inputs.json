@@ -4,4 +4,4 @@
      "s3://preclinical.rmc-4630.revmed.com/output/RnaTest/CTG-0219/CTG-0219.unmapped.marked.bam"
    ],
    "MergeBams.s3_output_bam": "s3://cro-vendor.revolutionmedicines.com/Champions/s3://preclinical.rmc-4630.revmed.com/output/RnaTest/merge_test.bam"
- }
+}

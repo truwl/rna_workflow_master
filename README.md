@@ -6,7 +6,7 @@ Currently the only pipeline in this package is the RNA pipeline (though pieces w
 
 The basic workflow of this pipeline is as follows
 * You start with paired R1/R2 fastq files. 
-* If the fastq files contain mouse + human RNA you can run the `demoused` process to seperate those out
+* If the fastq files contain mouse + human RNA you can run the `demoused` process to 'separate' those out
 * You run the `fastq_to_ubam` process which takes the human fastq files through qc, adapter trimming (soft), and fastqc and outputs a unaligned bam
 * If you have multiple fastq pairs for a single sample (say from multiple libraries or lanes) you can either:
   * Concatenate the fastq files together into one big R1 and one big R2 and put them back into S3
@@ -26,6 +26,11 @@ Running the following script will download and set this up
 And docker needs to work. More advanced cromwell integration (AWS/SLURM) is covered separately. 
 Look at workflow_options.json for current cluster/docker integration settings.
 
+### S3 credentials
+You need valid default S3 credentials for this system to work. On most systems you have default permissions. But you can also use aws config to manually get this to work.
+
+Test by listing and copying from the buckets you'll be using for S3 inputs and outputs in the workflows!
+
 ## Run
 All of the individual workflows run in the same fashion.
 There are three files per workflow
@@ -39,7 +44,7 @@ To run the workflow.
   * ```shell script
     java -jar /opt/cromwell/cromwell.jar run --options ../workflow_options.json --inputs [WOFKFLOW].inputs.json [WOFKFLOW].wdl
     ```
-  * or more conveniently : 
+  * or more conveniently
     ```shell script
       [WOFKFLOW].slurm.sh fastq_to_ubam.wdl
     ```

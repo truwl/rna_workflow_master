@@ -64,7 +64,7 @@ workflow Demoused {
     ]
 
     scatter(of in demoused_outputs) {
-        call os_ops.s3_push as metrics_push {
+        call os_ops.s3_push as demoused_push {
             input:
                 FileToPush=of,
                 DestinationRoot=s3_output_root
