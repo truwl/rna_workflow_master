@@ -14,7 +14,7 @@ The basic workflow of this pipeline is as follows
 * Once all this prep is done and you have a human, unaligned bam file of all the sequence for a sample process it using the `rna_master` pipeline   
 
 ## Install
-All of these pipelines requre an install of java (1.8+) and a download of cromwell to run.
+All of these pipelines require an install of java (1.8+) and a download of cromwell to run.
 To install java run. On most computer this should be installed by default. If not:
  * sudo yum install java-1.8.0-openjdk
 
