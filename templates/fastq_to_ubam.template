@@ -1,0 +1,8 @@
+{
+  "FastqCutUbam.sample_name": "$sample_id",
+  "FastqCutUbam.read_group": "${sample_id}_${library}",
+  "FastqCutUbam.library_name": "${sample_id}_${library}",
+  "FastqCutUbam.platform_unit": "${flowcell}.${lane}",
+  "FastqCutUbam.s3_read1_fastq": "${bucket_root}/${r1_fastq}",
+  "FastqCutUbam.s3_read2_fastq": "${bucket_root}/${r2_fastq}"
+}

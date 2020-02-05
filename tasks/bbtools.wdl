@@ -23,17 +23,17 @@ task BbSplitMouse {
             ref_mouse=~{mouse_ref} \
             scafstats=bbsplit_scaffold_stats.txt \
             refstats=bbsplit_refmap_stats.txt \
-            basename=split_%_#.fq \
+            basename=split_%_#.fq.gz \
             maxindel=100000
     >>>
 
     output {
         File ScaffoldStats = "bbsplit_scaffold_stats.txt"
         File ReferenceStats = "bbsplit_refmap_stats.txt"
-        File HumanR1 = "split_human_1.fq"
-        File HumanR2 = "split_human_2.fq"
-        File MouseR1 = "split_mouse_1.fq"
-        File MouseR2 = "split_mouse_2.fq"
+        File HumanR1 = "split_human_1.fq.gz"
+        File HumanR2 = "split_human_2.fq.gz"
+        File MouseR1 = "split_mouse_1.fq.gz"
+        File MouseR2 = "split_mouse_2.fq.gz"
     }
 
     runtime {

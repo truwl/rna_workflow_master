@@ -1,0 +1,2 @@
+sample_id,bucket_root,r1_fastq,r2_fastq,lane,flowcell,library
+CTG-0282,s3://cro-vendor.revolutionmedicines.com/Champions,RNAseq_CTG-0282_TAATGCGC-ATAGAGGC_AC9WCJANXX_L004_001.R1.fastq.gz,RNAseq_CTG-0282_TAATGCGC-ATAGAGGC_AC9WCJANXX_L004_001.R2.fastq.gz,5,CTGGCATA,TAATGCGC-ATAGAGGC

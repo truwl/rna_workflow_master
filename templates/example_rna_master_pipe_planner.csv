@@ -1,0 +1,2 @@
+sample_id,input_bam,output_root,readlength
+CTG-0282,s3://preclinical.rmc-4630.revmed.com/output/RnaTest/CTG-0211/CTG-0211.unmapped.marked.bam,s3://preclinical.rmc-4630.revmed.com/output/RnaTest/outputs/CTG-0211,125

@@ -94,4 +94,22 @@ to the pipeline.
 * Metrics will be under output_root/Metrics
 
 
+# Utility Scripts
+
+## gen_template_from_csv
+Given a csv file with named columns and a template with template variables (e.g. ${VARIABLE})
+Prints out a file per row of the csv with all the variables from the template replaced with that row's values
+Run like so
+```shell script
+bin/gen_template_from_csv.py -t templates/fastq_to_ubam.template -i templates/example_fastq_to_ubam_planner.csv
+```
+Run with --help to see full options
+
+## s3_bucket_list
+Prints out a filtered s3 bucket.
+Run like so
+```shell script
+bin/s3_bucket_list.sh --bucket cro-vendor.revolutionmedicines.com --prefix 'Champions' --suffix '.fastq.gz'
+```
+Run with --help to see full options
 

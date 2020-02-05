@@ -46,6 +46,8 @@ req_cmd="${ENV_DEST}/bin/conda install --yes --file ${REQUIREMENTS_FILE}"
 echo "Running requirements install : ${req_cmd}"
 eval ${req_cmd}
 
+# Set the bin dir to executable
+chmod a+x ${SCRIPT_DIR}/bin/*
 
 # Pull in cromwwell
 echo "Pulling in cromwell"

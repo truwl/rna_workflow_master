@@ -37,30 +37,30 @@ workflow Demoused {
     }
 
     # Compress things to save a TON of space
-    call os_ops.gzip as gzip_human_r1 {
-        input:
-            to_zip=BbSplitMouse.HumanR1,
-    }
-    call os_ops.gzip as gzip_human_r2 {
-        input:
-            to_zip=BbSplitMouse.HumanR2
-    }
-    call os_ops.gzip as gzip_mouse_r1 {
-        input:
-            to_zip=BbSplitMouse.MouseR1
-    }
-    call os_ops.gzip as gzip_mouse_r2 {
-        input:
-            to_zip=BbSplitMouse.MouseR2
-    }
+#    call os_ops.gzip as gzip_human_r1 {
+      ##        input:
+      ##            to_zip=BbSplitMouse.HumanR1,
+      ##    }
+      ##    call os_ops.gzip as gzip_human_r2 {
+      ##        input:
+      ##            to_zip=BbSplitMouse.HumanR2
+      ##    }
+      ##    call os_ops.gzip as gzip_mouse_r1 {
+      ##        input:
+      ##            to_zip=BbSplitMouse.MouseR1
+      ##    }
+      ##    call os_ops.gzip as gzip_mouse_r2 {
+      ##        input:
+      ##            to_zip=BbSplitMouse.MouseR2
+      ##    }
 
     Array[File] demoused_outputs = [
         BbSplitMouse.ScaffoldStats,
         BbSplitMouse.ReferenceStats,
-        gzip_human_r1.zipped,
-        gzip_human_r2.zipped,
-        gzip_mouse_r2.zipped,
-        gzip_mouse_r2.zipped,
+        BbSplitMouse.HumanR1,
+        BbSplitMouse.HumanR2,
+        BbSplitMouse.MouseR1,
+        BbSplitMouse.MouseR2,
     ]
 
     scatter(of in demoused_outputs) {
@@ -74,10 +74,10 @@ workflow Demoused {
     output {
         File ScaffoldStats = BbSplitMouse.ScaffoldStats
         File ReferenceStats = BbSplitMouse.ReferenceStats
-        File HumanR1 = gzip_human_r1.zipped
-        File HumanR2 = gzip_human_r2.zipped
-        File MouseR1 = gzip_mouse_r2.zipped
-        File MouseR2 = gzip_mouse_r2.zipped
+        File HumanR1 = BbSplitMouse.HumanR1
+        File HumanR2 = BbSplitMouse.HumanR2
+        File MouseR1 = BbSplitMouse.MouseR1
+        File MouseR2 = BbSplitMouse.MouseR2
 	}
 
 }
